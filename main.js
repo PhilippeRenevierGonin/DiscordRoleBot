@@ -14,6 +14,15 @@ else {
   config = {};
   config.TOKEN = process.env.TOKEN;
   config.PREFIX = process.env.PREFIX;
+
+// launching a web server to be ping every 5 minutes. 
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
 }
 
 const TOKEN = config.TOKEN;
