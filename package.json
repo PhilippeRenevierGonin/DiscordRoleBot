@@ -1,0 +1,27 @@
+{
+  "name": "discordrolebot",
+  "version": "1.0.0",
+  "description": "bot pour fixer des rôles par clic sur une réaction, projet pour voir comment faire un bot pour discord",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhilippeRenevierGonin/DiscordRoleBot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "role"
+  ],
+  "author": "PRG",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhilippeRenevierGonin/DiscordRoleBot/issues"
+  },
+  "homepage": "https://github.com/PhilippeRenevierGonin/DiscordRoleBot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
