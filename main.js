@@ -1,5 +1,13 @@
 const { Client, Message } = require('discord.js');
-const {TOKEN, PREFIX} = require("./config.js");
+
+let {TOKEN, PREFIX} = require("./config.js");
+// hosting on repl.it
+if (! TOKEN) {
+  TOKEN = process.env.TOKEN;
+  PREFIX = process.env.PREFIX;
+}
+
+
 const { RoleManager } = require("./Role.js");
 const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
