@@ -1,12 +1,24 @@
 const { Client, Message } = require('discord.js');
 
-let {TOKEN, PREFIX} = require("./config.js");
-// hosting on repl.it
-if (! TOKEN) {
-  TOKEN = process.env.TOKEN;
-  PREFIX = process.env.PREFIX;
+
+/**** hosting at home = a config.js exists ****/
+/**** hosting at repl.it = env... ****/
+
+const {existsSync} = require('fs')
+let config;
+if (existsSync("./config.js")) {
+  config = require("./config.js");
+}
+else {
+  // hosting on repl.it
+  config = {};
+  config.TOKEN = process.env.TOKEN;
+  config.PREFIX = process.env.PREFIX;
 }
 
+const TOKEN = config.TOKEN;
+const PREFIX = config.PREFIX;
+/************************************************/
 
 const { RoleManager } = require("./Role.js");
 const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
@@ -42,6 +54,9 @@ bot.on('message', msg => {
 });
 
 bot.login(TOKEN);
+
+
+
 
 
 
