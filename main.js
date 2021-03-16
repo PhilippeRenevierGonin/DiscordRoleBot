@@ -14,6 +14,7 @@ else {
   config = {};
   config.TOKEN = process.env.TOKEN;
   config.PREFIX = process.env.PREFIX;
+  config.INIT_EMOJIS = process.env.INIT_EMOJIS;
 
 // launching a web server to be ping every 5 minutes. 
 const express = require('express');
@@ -65,7 +66,14 @@ bot.on('message', msg => {
 bot.login(TOKEN);
 
 
-
+if (config.INIT_EMOJIS) {
+  roleManager.addRole("819579064645320745", "M1", "1️⃣");
+  roleManager.addRole("819579183163637820", "IA2", "🧠");
+  roleManager.addRole("819579096672501852", "Intense", "🇮");
+  roleManager.addRole("819579139840540737", "Mbds", "🇲");
+  roleManager.addRole("819579212708315206", "Siris", "🇸");
+  roleManager.addRole("819583710574805023", "L3", "🇱");
+}
 
 
 
@@ -73,7 +81,7 @@ bot.login(TOKEN);
 
 
 /* 
-/botrole/addRole 819579064645320745 M1 :one:
+/botrole/addRole 819579064645320745 M1 :one: 
 /botrole/addRole 819579183163637820 IA2 :brain:
 /botrole/addRole 819579096672501852 Intense :regional_indicator_i:
 /botrole/addRole 819579139840540737 Mbds :regional_indicator_m:
