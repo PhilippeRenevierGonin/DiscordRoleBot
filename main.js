@@ -42,7 +42,18 @@ bot.on('ready', () => {
 });
 
 bot.on('message', msg => {
+  // filtre sur le channel 
+
+  console.dir(msg.channel.id);
+
+  if (msg.channel.id != '881811010938368050') {
+    console.log("pas sur le bon channel...")
+    return ;
+  }
+  
+  // filtre sur le préfixe ou si c'est un message du bot
   if (! msg.content.startsWith(`${PREFIX}`) || msg.author.bot) return;
+
   // todo, sur plusieurs lignes
   const lignes = msg.content.trim().split("\n");
 
@@ -67,25 +78,20 @@ bot.login(TOKEN);
 
 
 if (config.INIT_EMOJIS) {
-  roleManager.addRole("819579064645320745", "M1", "1️⃣");
-  roleManager.addRole("819579183163637820", "IA2", "🧠");
-  roleManager.addRole("819579096672501852", "Intense", "🇮");
-  roleManager.addRole("819579139840540737", "Mbds", "🇲");
-  roleManager.addRole("819579212708315206", "Siris", "🇸");
-  roleManager.addRole("819583710574805023", "L3", "🇱");
+  roleManager.addRole("880823345858367568", "TD1", "1️⃣");
+  roleManager.addRole("880823712037884104", "TD2", "2️⃣");
+  roleManager.addRole("880823859199225917", "TD3", "3️⃣");
 }
 
 
-
+// https://emojiterra.com/fr/keycap-3/
 // ref : https://www.youtube.com/watch?v=UdIzwu7d9LY&list=PLuWyq_EO5_ALOnpxptlqQA5FR75Nza2PQ&index=26
 
 
 /* 
-/botrole/addRole 819579064645320745 M1 :one: 
-/botrole/addRole 819579183163637820 IA2 :brain:
-/botrole/addRole 819579096672501852 Intense :regional_indicator_i:
-/botrole/addRole 819579139840540737 Mbds :regional_indicator_m:
-/botrole/addRole 819579212708315206 Siris :regional_indicator_s:
-/botrole/addRole 819583710574805023 L3 :regional_indicator_l:
+/botrole/addRole 880823345858367568 TD1 :one: 
+/botrole/addRole 880823712037884104 TD1 :two: 
+/botrole/addRole 880823859199225917 TD3 :three:
+
 /botrole/post
 */

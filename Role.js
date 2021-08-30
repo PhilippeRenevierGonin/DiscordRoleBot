@@ -4,7 +4,8 @@ class RoleReaction {
     constructor(roleId, roleName, reaction, ) {
         this.roleId = roleId;
         this.roleName = roleName;
-        this.reaction = reaction;
+        this.reaction = reaction; // l'emoji
+        this.emoji = reaction; // l'emoji
     }
 }
 
@@ -53,6 +54,8 @@ class RoleManager {
             const member = message.guild.members.cache.get(user.id);
             const emoji = reaction.emoji.name;
 
+            /*
+            // add sans condition
             const roleReaction = this.mapReactionRoles.filter(r => {
                 return r.reaction == emoji;
             });
@@ -61,6 +64,21 @@ class RoleManager {
                 const roleToAdd = message.guild.roles.cache.get(roleReaction[0].roleId);
                 member.roles.add(roleToAdd);
             }
+            */
+
+            // add exclusif : les autres rôles sont enlevés
+            this.mapReactionRoles.forEach(r => {
+                if (r.reaction == emoji) {
+                    const roleToAdd = message.guild.roles.cache.get(r.roleId);
+                    member.roles.add(roleToAdd);
+                }
+                else {
+                    const roleToRemove = message.guild.roles.cache.get(r.roleId);
+                    member.roles.remove(roleToRemove);
+
+                    message.reactions.resolve(r.reaction).users.remove(member);
+                }
+            });
 
         }
        
