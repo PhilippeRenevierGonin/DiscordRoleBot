@@ -111,8 +111,8 @@ if (config.INIT_EMOJIS) {
   roleController.getRoleManager("groupe").addRole("880823712037884104", "TD2", "2️⃣");
   roleController.getRoleManager("groupe").addRole("880823859199225917", "TD3", "3️⃣");
 
-  roleController.getRoleManager("alternant").addRole("898538959225884683", "non_alternant·e", "🎓");
-  roleController.getRoleManager("alternant").addRole("898538365119520828", "alternant·e", "🏭");
+  roleController.getRoleManager("alternance").addRole("898538959225884683", "non_alternant·e", "🎓");
+  roleController.getRoleManager("alternance").addRole("898538365119520828", "alternant·e", "🏭");
 
 
 }
