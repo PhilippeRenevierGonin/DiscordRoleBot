@@ -1,5 +1,9 @@
 const { Client, Message } = require('discord.js');
 
+const CHANNEL_ID = '881811010938368050';
+const KEY_GROUPE_TD = 'groupe';
+const KEY_ALTERNANCE = 'alternance';
+
 
 /**** hosting at home = a config.js exists ****/
 /**** hosting at repl.it = env... ****/
@@ -34,15 +38,15 @@ const { RoleController, RoleManager } = require("./Role.js");
 const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 
-const roleManager = new RoleManager("groupe");
+const roleManager = new RoleManager(KEY_GROUPE_TD, CHANNEL_ID);
 const roleController = new RoleController();
 roleManager.addListener(bot);
 
-const altManager = new RoleManager("alternant");
+const altManager = new RoleManager(KEY_ALTERNANCE, CHANNEL_ID);
 altManager.addListener(bot);
 
-roleController.addRoleManager("groupe", roleManager);
-roleController.addRoleManager("alternance", altManager);
+roleController.addRoleManager(KEY_GROUPE_TD, roleManager);
+roleController.addRoleManager(KEY_ALTERNANCE, altManager);
 
 
 bot.on('ready', () => {
@@ -54,7 +58,7 @@ bot.on('message', msg => {
 
   console.dir(msg.channel.id);
 
-  if (msg.channel.id != '881811010938368050') {
+  if (msg.channel.id != CHANNEL_ID) {
     console.log("pas sur le bon channel...")
     return ;
   }
@@ -107,12 +111,12 @@ bot.login(TOKEN);
 
 
 if (config.INIT_EMOJIS) {
-  roleController.getRoleManager("groupe").addRole("880823345858367568", "TD1", "1️⃣");
-  roleController.getRoleManager("groupe").addRole("880823712037884104", "TD2", "2️⃣");
-  roleController.getRoleManager("groupe").addRole("880823859199225917", "TD3", "3️⃣");
+  roleController.getRoleManager(KEY_GROUPE_TD).addRole("880823345858367568", "TD1", "1️⃣");
+  roleController.getRoleManager(KEY_GROUPE_TD).addRole("880823712037884104", "TD2", "2️⃣");
+  roleController.getRoleManager(KEY_GROUPE_TD).addRole("880823859199225917", "TD3", "3️⃣");
 
-  roleController.getRoleManager("alternance").addRole("898538959225884683", "non_alternant·e", "🎓");
-  roleController.getRoleManager("alternance").addRole("898538365119520828", "alternant·e", "🏭");
+  roleController.getRoleManager(KEY_ALTERNANCE).addRole("898538959225884683", "non_alternant·e", "🎓");
+  roleController.getRoleManager(KEY_ALTERNANCE).addRole("898538365119520828", "alternant·e", "🏭");
 
 
 }

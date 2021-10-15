@@ -27,7 +27,8 @@ class RoleController {
 
 
 class RoleManager {
-    constructor(name) {
+    constructor(name, channelId) {
+        this.channelId = channelId;
         this.name = name;
         this.mapReactionRoles = [];
     }
@@ -45,6 +46,7 @@ class RoleManager {
 
     addListener(bot) {
         bot.on("messageReactionAdd", async (messageReaction, user) => {
+
             if (messageReaction.partial) {
                 // If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
                 try {
@@ -56,7 +58,7 @@ class RoleManager {
                 }
             }
 
-            if (this.verifyReaction(messageReaction.emoji.name)) {
+            if ((messageReaction.message.channel.id == this.channelId) && this.verifyReaction(messageReaction.emoji.name)) {
                 console.log("messageReactionAdd sur "+this.name);
                 this.addRoleToUser(messageReaction, user);
             }
@@ -74,7 +76,7 @@ class RoleManager {
                     return;
                 }
             }
-            if (this.verifyReaction(messageReaction.emoji.name)) { 
+            if ((messageReaction.message.channel.id == this.channelId) && this.verifyReaction(messageReaction.emoji.name)) { 
                 console.log("messageReactionRemove sur "+this.name);
                 this.removeRoleFromUser(messageReaction, user);
             }
