@@ -1,7 +1,7 @@
 const { MessageEmbed } = require("discord.js");
 
 class RoleReaction {
-    constructor(roleId, roleName, reaction, ) {
+    constructor(roleId, roleName, reaction ) {
         this.roleId = roleId;
         this.roleName = roleName;
         this.reaction = reaction; // l'emoji
@@ -9,11 +9,39 @@ class RoleReaction {
     }
 }
 
-class RoleManager {
+
+class RoleController {
     constructor() {
+        this.roleManagers = [];
+    }
+
+    addRoleManager(key, manager) {
+        this.roleManagers[key] = manager;
+    }
+
+    getRoleManager(key) {
+        return this.roleManagers[key];
+    }
+
+}
+
+
+class RoleManager {
+    constructor(name) {
+        this.name = name;
         this.mapReactionRoles = [];
     }
 
+    verifyReaction(emoji) {
+        let inside = false;
+        for(let i = 0; i < this.mapReactionRoles.length; i++) {
+            if (this.mapReactionRoles[i].reaction == emoji) {
+                inside = true;
+                break;
+            }
+        }
+        return inside;
+    }
 
     addListener(bot) {
         bot.on("messageReactionAdd", async (messageReaction, user) => {
@@ -28,7 +56,12 @@ class RoleManager {
                 }
             }
 
-            this.addRoleToUser(messageReaction, user)
+            if (this.verifyReaction(messageReaction.emoji.name)) {
+                console.log("messageReactionAdd sur "+this.name);
+                this.addRoleToUser(messageReaction, user);
+            }
+
+            
         });
         bot.on("messageReactionRemove", async (messageReaction, user) => {
             if (messageReaction.partial) {
@@ -41,7 +74,10 @@ class RoleManager {
                     return;
                 }
             }
-            this.removeRoleFromUser(messageReaction, user)
+            if (this.verifyReaction(messageReaction.emoji.name)) { 
+                console.log("messageReactionRemove sur "+this.name);
+                this.removeRoleFromUser(messageReaction, user);
+            }
         });
     }
 
@@ -145,4 +181,4 @@ class RoleManager {
 }
 
 
-module.exports = {RoleManager};
+module.exports = {RoleController, RoleManager};

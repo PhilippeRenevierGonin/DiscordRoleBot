@@ -30,12 +30,20 @@ const TOKEN = config.TOKEN;
 const PREFIX = config.PREFIX;
 /************************************************/
 
-const { RoleManager } = require("./Role.js");
+const { RoleController, RoleManager } = require("./Role.js");
 const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 
 
-const roleManager = new RoleManager();
+const roleManager = new RoleManager("groupe");
+const roleController = new RoleController();
 roleManager.addListener(bot);
+
+const altManager = new RoleManager("alternant");
+altManager.addListener(bot);
+
+roleController.addRoleManager("groupe", roleManager);
+roleController.addRoleManager("alternance", altManager);
+
 
 bot.on('ready', () => {
   console.log(`Logged in as ${bot.user.tag}!`);
@@ -61,13 +69,34 @@ bot.on('message', msg => {
     const ligne = l.trim();
     let args = ligne.trim().slice(PREFIX.length).split(/ +/);
     console.log(args);
+
+
+
   
     if (ligne.startsWith(`${PREFIX}addRole`)) {
-      if (args.length == 4) roleManager.addRole(args[1], args[2], args[3]);
-      else roleManager.sendHelpAddRole(msg);
+      let tailleEneteteCmd = `${PREFIX}addRole`.length;
+      let premierEspace = ligne.indexOf(" ");
+      let key = "groupe";
+      if (premierEspace > 0) key = ligne.substring(tailleEneteteCmd+1, premierEspace);
+      else key = ligne.substring(tailleEneteteCmd+1);
+      key = key.trim();
+  
+      console.log(key);
+
+      if (args.length == 4) roleController.getRoleManager(key).addRole(args[1], args[2], args[3]);
+      else roleController.getRoleManager(key).sendHelpAddRole(msg);
     }
     else if (ligne.startsWith(`${PREFIX}post`)) {
-      roleManager.addMessage(msg, "Cliquez sur une des réactions ci-dessous pour obtenir le rôle correspondant");
+      let tailleEneteteCmd = `${PREFIX}post`.length;
+      let premierEspace = ligne.indexOf(" ");
+      let key = "groupe";
+      if (premierEspace > 0) key = ligne.substring(tailleEneteteCmd+1, premierEspace);
+      else key = ligne.substring(tailleEneteteCmd+1);
+      key = key.trim();
+  
+      console.log(key);
+
+      roleController.getRoleManager(key).addMessage(msg, "Cliquez sur une des réactions ci-dessous pour obtenir le rôle correspondant");
     }
   })
   
@@ -78,9 +107,14 @@ bot.login(TOKEN);
 
 
 if (config.INIT_EMOJIS) {
-  roleManager.addRole("880823345858367568", "TD1", "1️⃣");
-  roleManager.addRole("880823712037884104", "TD2", "2️⃣");
-  roleManager.addRole("880823859199225917", "TD3", "3️⃣");
+  roleController.getRoleManager("groupe").addRole("880823345858367568", "TD1", "1️⃣");
+  roleController.getRoleManager("groupe").addRole("880823712037884104", "TD2", "2️⃣");
+  roleController.getRoleManager("groupe").addRole("880823859199225917", "TD3", "3️⃣");
+
+  roleController.getRoleManager("alternant").addRole("898538959225884683", "non_alternant·e", "🎓");
+  roleController.getRoleManager("alternant").addRole("898538365119520828", "alternant·e", "🏭");
+
+
 }
 
 
@@ -89,9 +123,17 @@ if (config.INIT_EMOJIS) {
 
 
 /* 
-/botrole/addRole 880823345858367568 TD1 :one: 
-/botrole/addRole 880823712037884104 TD1 :two: 
-/botrole/addRole 880823859199225917 TD3 :three:
+/botrole/addRole/groupe 880823345858367568 TD1 :one: 
+/botrole/addRole/groupe 880823712037884104 TD1 :two: 
+/botrole/addRole/groupe 880823859199225917 TD3 :three:
 
-/botrole/post
+
+/botrole/addRole/alternance 898538959225884683 non_alternant·e :mortar_board:
+/botrole/addRole/alternance 898538365119520828 alternant·e :factory:
+
+/botrole/post/groupe
+/botrole/post/alternance
+
+
+
 */
